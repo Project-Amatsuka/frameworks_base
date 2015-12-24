@@ -5051,6 +5051,12 @@ public final class Settings {
         public static final String LOCKSCREEN_BATTERY_INFO = "lockscreen_battery_info";
 
         /**
+         * Show 4G instead of LTE
+         * @hide
+         */
+        public static final String SHOW_FOURG = "show_fourg";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -5197,6 +5203,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_SHOW_CITY);
             PRIVATE_SETTINGS.add(LOCKSCREEN_WEATHER_STYLE);
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
+            PRIVATE_SETTINGS.add(SHOW_FOURG);
         }
 
         /**
