@@ -233,4 +233,9 @@ oneway interface IStatusBar
      */
     void showInDisplayFingerprintView();
     void hideInDisplayFingerprintView();
+
+    /**
+     * Camera flash toggle
+     */
+    void toggleCameraFlash();
 }
