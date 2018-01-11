@@ -34,6 +34,8 @@ import android.view.KeyEvent;
 
 import com.android.internal.statusbar.IStatusBarService;
 
+import java.util.Locale;
+
 /**
  * Some custom utilities
  */
@@ -93,6 +95,19 @@ public class NyanpasuUtils {
             wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT));
         } catch (RemoteException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static boolean isSupportLanguage(boolean excludeSAR) {
+        Locale locale = Locale.getDefault();
+        if (locale.getLanguage().startsWith(Locale.CHINESE.getLanguage())) {
+            if (excludeSAR) {
+                return locale.getCountry().equals("CN");
+            } else {
+                return !locale.getCountry().equals("SG");
+            }
+        } else {
+            return false;
         }
     }
 
