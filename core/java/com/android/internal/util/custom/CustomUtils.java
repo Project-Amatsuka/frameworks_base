@@ -17,6 +17,7 @@
 package com.android.internal.util.custom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.PowerManager;
@@ -103,7 +104,7 @@ public class CustomUtils {
         float n = temp + 0.5f;
         // Use boolean to determine celsius or fahrenheit
         return String.valueOf((n - c) % 2 == 0 ? (int) temp :
-                ForC ? c * 9/5 + 32 + "°F" :c + "°C");
+                ForC ? c + "°C" :c * 9/5 + 32 + "°F");
     }
 
 }
