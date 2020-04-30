@@ -9,4 +9,24 @@
     <string name="screen_pinning_description_no_navbar_fpsensor">解除するまで画面を固定します。解除するには指紋センサーを押して下さい。</string>
     <string name="screen_pinning_toast_no_navbar_fpsensor">画面の固定を解除するには指紋センサーを長押しします</string>
     <string name="biometric_dialog_button_use_face">顔を使用</string>
+
+    <!-- App Lock -->
+    <string name="applock_title">アプリロッカー</string>
+    <string name="applock_locked">ロックされている</string>
+    <string name="applock_unlocked">アンロック</string>
+    <string name="aplock_locked_apps">ロックされているアプリ</string>
+    <string name="applock_unlocked_apps">ロックされていないアプリ</string>
+    <string name="aplock_show_only_on_wake">ロックを解除したままにする</string>
+    <string name="aplock_show_only_on_wake_on_summary">認証されると、画面が閉じられるまでアプリのロックが解除されたままになります。 </string>
+    <string name="aplock_show_only_on_wake_off_summary">認証されると、アプリを終了した後、15秒間ロックが解除されたままになります</string>
+    <string name="applock_notification_info">ロックされた各アプリの通知アイコンをタップすることで、アプリごとに通知内容の表示/非表示を切り替えることができます。 </string>
+    <string name="applock_show_notif">通知内容を表示する</string>
+    <string name="applock_hide_notif">通知内容を隠す</string>
+    <string name="applock_setup">アプリロックを設定する</string>
+    <string name="applock_overlay_summary">アプリがロックされているため、この機能は利用できません</string>
+    <plurals name="applock_summary">
+        <item quantity="one">1つのアプリがロックされている</item>
+        <item quantity="other">%d個のアプリがロックされています</item>
+    </plurals>
+    <string name="keywords_applock_settings">applock, applocker, app lock, app locker, app locker</string>
 </resources>
