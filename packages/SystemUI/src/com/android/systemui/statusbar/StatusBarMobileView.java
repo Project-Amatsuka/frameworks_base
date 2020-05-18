@@ -163,6 +163,13 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
             mMobileType.setVisibility(View.GONE);
         }
 
+        if (mState.strengthId > 0) {
+            mMobile.setVisibility(View.VISIBLE);
+            mMobileDrawable.setLevel(mState.strengthId);
+        } else {
+            mMobile.setVisibility(View.GONE);
+        }
+
         mMobileRoaming.setVisibility(mState.roaming ? View.VISIBLE : View.GONE);
         mMobileRoamingSpace.setVisibility(mState.roaming ? View.VISIBLE : View.GONE);
         mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
@@ -185,8 +192,11 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
             mMobileGroup.setVisibility(state.visible ? View.VISIBLE : View.GONE);
             needsLayout = true;
         }
-        if (mState.strengthId != state.strengthId) {
+        if (state.strengthId > 0) {
             mMobileDrawable.setLevel(state.strengthId);
+            mMobile.setVisibility(View.VISIBLE);
+        } else {
+            mMobile.setVisibility(View.GONE);
         }
         if (mState.typeId != state.typeId) {
             needsLayout |= state.typeId == 0 || mState.typeId == 0;
