@@ -72,6 +72,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     private View mTickerViewFromStub;
     private View mTickerViewContainer;
+    private View mLyricViewFromStub;
+    private View mLyricViewContainer;
 
     private SignalCallback mSignalCallback = new SignalCallback() {
         @Override
@@ -115,6 +117,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         initEmergencyCryptkeeperText();
         initOperatorName();
         initTickerView();
+        initLyricView();
     }
 
     @Override
@@ -185,10 +188,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                 hideSystemIconArea(animate);
                 hideOperatorName(animate);
                 hideTicker(animate);
+                hideLyric(animate);
             } else {
                 showSystemIconArea(animate);
                 showOperatorName(animate);
                 showTicker(animate);
+                showLyric(animate);
             }
         }
         if ((diff1 & DISABLE_NOTIFICATION_ICONS) != 0) {
@@ -261,6 +266,18 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     public void showSystemIconArea(boolean animate) {
         animateShow(mSystemIconArea, animate);
+    }
+
+    public void showLyric(boolean animate) {
+        if (mLyricViewContainer != null) {
+            animateShow(mLyricViewContainer, animate);
+        }
+    }
+
+    public void hideLyric(boolean animate) {
+        if (mLyricViewContainer != null) {
+            animateHide(mLyricViewContainer, animate);
+        }
     }
 
     public void showTicker(boolean animate) {
@@ -414,5 +431,17 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         ImageSwitcher tickerIcon = (ImageSwitcher) mStatusBar.findViewById(R.id.tickerIcon);
         mStatusBarComponent.createTicker(
                 getContext(), mStatusBar, tickerView, tickerIcon, mTickerViewFromStub);
+    }
+
+    private void initLyricView() {
+        mLyricViewContainer = mStatusBar.findViewById(R.id.lyric_container);
+        View lyricStub = mStatusBar.findViewById(R.id.lyric_stub);
+        if (mLyricViewFromStub == null && lyricStub != null) {
+            mLyricViewFromStub = ((ViewStub) lyricStub).inflate();
+        }
+        TickerView tickerView = (TickerView) mStatusBar.findViewById(R.id.lyricText);
+        ImageSwitcher tickerIcon = (ImageSwitcher) mStatusBar.findViewById(R.id.lyricIcon);
+        mStatusBarComponent.createLyricTicker(
+               getContext(), mStatusBar, tickerView, tickerIcon, mLyricViewFromStub);
     }
 }
