@@ -176,21 +176,6 @@ public class KeyguardSliceProviderGoogle extends KeyguardSliceProvider implement
         return slice;
     }
 
-    private void addWeather(ListBuilder listBuilder) {
-        SmartSpaceCard weatherCard = mSmartSpaceData.getWeatherCard();
-        if (weatherCard != null && !weatherCard.isExpired()) {
-            RowBuilder rowBuilder = new RowBuilder(mWeatherUri);
-            rowBuilder.setTitle(weatherCard.getTitle());
-            Bitmap icon = weatherCard.getIcon();
-            if (icon != null) {
-                IconCompat createWithBitmap = IconCompat.createWithBitmap(icon);
-                createWithBitmap.setTintMode(Mode.DST);
-                rowBuilder.addEndItem(createWithBitmap, 1);
-            }
-            listBuilder.addRow(rowBuilder);
-        }
-    }
-
     @Override
     public void onSmartSpaceUpdated(SmartSpaceData smartSpaceData) {
         synchronized (this) {
