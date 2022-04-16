@@ -20,6 +20,7 @@ import com.android.systemui.LatencyTester;
 import com.android.systemui.ScreenDecorations;
 import com.android.systemui.SliceBroadcastRelayHandler;
 import com.android.systemui.SystemUI;
+import com.android.systemui.VendorServices;
 import com.android.systemui.accessibility.SystemActions;
 import com.android.systemui.accessibility.WindowMagnification;
 import com.android.systemui.biometrics.AuthController;
@@ -184,4 +185,10 @@ public abstract class SystemUIBinder {
     @IntoMap
     @ClassKey(HomeSoundEffectController.class)
     public abstract SystemUI bindHomeSoundEffectController(HomeSoundEffectController sysui);
+
+    /** Inject into VendorServices. */
+    @Binds
+    @IntoMap
+    @ClassKey(VendorServices.class)
+    public abstract SystemUI bindVendorServices(VendorServices sysui);
 }
