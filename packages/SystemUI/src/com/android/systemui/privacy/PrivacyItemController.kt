@@ -26,6 +26,7 @@ import android.provider.DeviceConfig
 import com.android.internal.annotations.VisibleForTesting
 import com.android.internal.config.sysui.SystemUiDeviceConfigFlags
 import com.android.systemui.Dumpable
+import com.android.systemui.R
 import com.android.systemui.appops.AppOpItem
 import com.android.systemui.appops.AppOpsController
 import com.android.systemui.dagger.SysUISingleton
@@ -46,6 +47,7 @@ import javax.inject.Inject
 @SysUISingleton
 class PrivacyItemController @Inject constructor(
     private val appOpsController: AppOpsController,
+    private val context: Context,
     @Main uiExecutor: DelayableExecutor,
     @Background private val bgExecutor: DelayableExecutor,
     private val deviceConfigProxy: DeviceConfigProxy,
@@ -57,12 +59,6 @@ class PrivacyItemController @Inject constructor(
 
     @VisibleForTesting
     internal companion object {
-        val LOCATION_WHITELIST_PKG = arrayOf(
-            "com.android.bluetooth",
-            "com.android.systemui",
-            "com.google.android.gms",
-            "com.qualcomm.location",
-        )
         val OPS_MIC_CAMERA = intArrayOf(AppOpsManager.OP_CAMERA,
                 AppOpsManager.OP_PHONE_CALL_CAMERA, AppOpsManager.OP_RECORD_AUDIO,
                 AppOpsManager.OP_PHONE_CALL_MICROPHONE)
@@ -119,6 +115,9 @@ class PrivacyItemController @Inject constructor(
         private set
     var locationAvailable = isLocationEnabled()
 
+    var mLocationWhitelists = context.getResources().getStringArray(
+        R.array.config_locationIndicatorExcludelist)
+
     var allIndicatorsAvailable = micCameraAvailable && locationAvailable
 
     private val devicePropertiesChangedListener =
@@ -154,7 +153,7 @@ class PrivacyItemController @Inject constructor(
         ) {
             // Check if we care about this code right now
             if (code in OPS_LOCATION && !locationAvailable
-                    || packageName in LOCATION_WHITELIST_PKG) {
+                    || packageName in mLocationWhitelists) {
                 return
             }
             val userId = UserHandle.getUserId(uid)
@@ -327,7 +326,7 @@ class PrivacyItemController @Inject constructor(
             else -> return null
         }
         if (type == PrivacyType.TYPE_LOCATION && !locationAvailable
-                || appOpItem.packageName in LOCATION_WHITELIST_PKG) {
+                || appOpItem.packageName in mLocationWhitelists) {
             return null
         }
         val app = PrivacyApplication(appOpItem.packageName, appOpItem.uid)
