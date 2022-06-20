@@ -6,8 +6,6 @@ import static com.android.systemui.statusbar.StatusBarIconView.STATE_ICON;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -52,28 +50,6 @@ public class NetworkTrafficSB extends NetworkTraffic implements DarkReceiver, St
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-    }
-
-    @Override
-    protected void setMode() {
-        super.setMode();
-        mIsEnabled = mIsEnabled;
-    }
-
-    @Override
-    protected void setSpacingAndFonts() {
-        setTextAppearance(R.style.TextAppearance_QS_Status);
-        setLineSpacing(0.75f, 0.75f);
-    }
-
-    @Override
-    protected RelativeSizeSpan getSpeedRelativeSizeSpan() {
-        return new RelativeSizeSpan(0.75f);
-    }
-
-    @Override
-    protected RelativeSizeSpan getUnitRelativeSizeSpan() {
-        return new RelativeSizeSpan(0.7f);
     }
 
     @Override
