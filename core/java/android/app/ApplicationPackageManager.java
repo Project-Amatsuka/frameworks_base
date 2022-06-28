@@ -717,6 +717,10 @@ public class ApplicationPackageManager extends PackageManager {
                 name.contains("PIXEL_2018_PRELOAD") ||
                 name.contains("PIXEL_2017_PRELOAD")) {
             return false;
+        } else if (packageName != null &&
+                packageName.contains("com.google.android.GoogleCamera") && 
+                name.contains("PIXEL_2019_MIDYEAR_EXPERIENCE")) {
+            return true;
         }
         return mHasSystemFeatureCache.query(new HasSystemFeatureQuery(name, version));
     }
