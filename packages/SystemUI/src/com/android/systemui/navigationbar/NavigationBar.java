@@ -1305,7 +1305,7 @@ public class NavigationBar extends ViewController<NavigationBarView> implements 
 
     private void onVerticalChanged(boolean isVertical) {
         mCentralSurfacesOptionalLazy.get().ifPresent(
-                statusBar -> statusBar.setQsScrimEnabled(!isVertical));
+                statusBar -> {});
     }
 
     private boolean onNavigationTouch(View v, MotionEvent event) {

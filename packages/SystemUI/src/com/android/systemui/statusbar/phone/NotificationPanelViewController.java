@@ -452,7 +452,6 @@ public class NotificationPanelViewController extends PanelViewController {
     private boolean mOnlyAffordanceInThisMotion;
     private ValueAnimator mQsSizeChangeAnimator;
 
-    private boolean mQsScrimEnabled = true;
     private boolean mQsTouchAboveFalsingThreshold;
     private int mQsFalsingThreshold;
 
@@ -2662,25 +2661,12 @@ public class NotificationPanelViewController extends PanelViewController {
         }
         mKeyguardStatusViewController.setClipBounds(
                 clipStatusView ? mKeyguardStatusAreaClipBounds : null);
-        if (!qsVisible && mSplitShadeEnabled) {
-            // On the lockscreen when qs isn't visible, we don't want the bounds of the shade to
-            // be visible, otherwise you can see the bounds once swiping up to see bouncer
-            mScrimController.setNotificationsBounds(0, 0, 0, 0);
-        } else {
-            // Increase the height of the notifications scrim when not in split shade
-            // (e.g. portrait tablet) so the rounded corners are not visible at the bottom,
-            // in this case they are rendered off-screen
-            final int notificationsScrimBottom = mSplitShadeEnabled ? bottom : bottom + radius;
-            mScrimController.setNotificationsBounds(left, top, right, notificationsScrimBottom);
-        }
 
         if (mSplitShadeEnabled) {
             mKeyguardStatusBarViewController.setNoTopClipping();
         } else {
             mKeyguardStatusBarViewController.updateTopClipping(top);
         }
-
-        mScrimController.setScrimCornerRadius(radius);
 
         // Convert global clipping coordinates to local ones,
         // relative to NotificationStackScrollLayout
@@ -3498,14 +3484,6 @@ public class NotificationPanelViewController extends PanelViewController {
     @Override
     public boolean isDozing() {
         return mDozing;
-    }
-
-    public void setQsScrimEnabled(boolean qsScrimEnabled) {
-        boolean changed = mQsScrimEnabled != qsScrimEnabled;
-        mQsScrimEnabled = qsScrimEnabled;
-        if (changed) {
-            updateQsState();
-        }
     }
 
     public void onScreenTurningOn() {
