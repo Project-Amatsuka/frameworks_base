@@ -42,6 +42,7 @@ final class AppNotRespondingDialog extends BaseErrorDialog implements View.OnCli
     static final int FORCE_CLOSE = 1;
     static final int WAIT = 2;
     static final int WAIT_AND_REPORT = 3;
+    static final int IGNORE = 4;
 
     public static final int CANT_SHOW = -1;
     public static final int ALREADY_SHOWING = -2;
@@ -99,6 +100,16 @@ final class AppNotRespondingDialog extends BaseErrorDialog implements View.OnCli
     }
 
     @Override
+    public void show() {
+        if (mProc.mOptRecord.isForceFroze()) {
+            mHandler.obtainMessage(IGNORE).sendToTarget();
+            Slog.i(TAG, "ANR is ignored because of force freeze for " + mProc);
+        } else {
+            super.show();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final FrameLayout frame = findViewById(android.R.id.custom);
@@ -149,6 +160,7 @@ final class AppNotRespondingDialog extends BaseErrorDialog implements View.OnCli
                     break;
                 case WAIT_AND_REPORT:
                 case WAIT:
+                case IGNORE:
                     // Continue waiting for the application.
                     synchronized (mService) {
                         ProcessRecord app = mProc;
@@ -164,7 +176,9 @@ final class AppNotRespondingDialog extends BaseErrorDialog implements View.OnCli
                             errState.setNotRespondingReport(null);
                             errState.getDialogController().clearAnrDialogs();
                         }
-                        mService.mServices.scheduleServiceTimeoutLocked(app);
+
+                        if (msg.what != IGNORE)
+                            mService.mServices.scheduleServiceTimeoutLocked(app);
                     }
                     break;
             }

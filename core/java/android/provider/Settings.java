@@ -16626,6 +16626,14 @@ public final class Settings {
          * @hide
          */
         public static final String RESTRICTED_NETWORKING_MODE = "restricted_networking_mode";
+
+        /**
+         * Whether force background freezer should be used. This will freeze tasks with
+         * restricted battery usage when moving them to background and unfreeze them when
+         * moving to foreground.
+         * @hide
+         */
+        public static final String FORCE_BACKGROUND_FREEZER = "force_background_freezer";
     }
 
     /**
