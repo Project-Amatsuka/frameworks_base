@@ -415,13 +415,14 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                     // Therefore, we use a quadratic interpolator animator to animate the alpha
                     // for tiles in QQS to match.
                     quadraticInterpolatorBuilder
+                            .addFloat(quickTileView.getLabelContainer(), "alpha", 0, 1)
                             .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 1);
                     nonFirstPageAlphaBuilder
                             .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 0);
 
                     mAnimatedQsViews.add(tileView);
                     mAllViews.add(quickTileView);
-                    mAllViews.add(quickTileView.getSecondaryLabel());
+                    mAllViews.add(quickTileView.getLabelContainer());
                 } else if (mFullRows && isIconInAnimatedRow(count)) {
 
                     firstPageBuilder.addFloat(tileView, "translationY", -heightDiff, 0);
@@ -445,8 +446,8 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                     mOtherFirstPageTilesHeightAnimator.addView(tileView);
                     tileView.setClipChildren(true);
                     tileView.setClipToPadding(true);
-                    firstPageBuilder.addFloat(tileView.getSecondaryLabel(), "alpha", 0, 1);
-                    mAllViews.add(tileView.getSecondaryLabel());
+                    firstPageBuilder.addFloat(tileView.getLabelContainer(), "alpha", 0, 1);
+                    mAllViews.add(tileView.getLabelContainer());
                 }
 
                 mAllViews.add(tileView);
