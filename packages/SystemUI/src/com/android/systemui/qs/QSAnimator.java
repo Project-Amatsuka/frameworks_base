@@ -415,9 +415,9 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                     // Therefore, we use a quadratic interpolator animator to animate the alpha
                     // for tiles in QQS to match.
                     quadraticInterpolatorBuilder
-                            .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 1);
+                            .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 1)
                     nonFirstPageAlphaBuilder
-                            .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 0);
+                            .addFloat(quickTileView.getSecondaryLabel(), "alpha", 0, 0)
 
                     mAnimatedQsViews.add(tileView);
                     mAllViews.add(quickTileView);
