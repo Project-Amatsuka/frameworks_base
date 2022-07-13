@@ -21,7 +21,6 @@ import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_WIFI
 
 import android.annotation.Nullable;
 import android.content.Context;
-import android.content.ContentResolver;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -261,9 +260,13 @@ public interface StatusBarIconController {
         protected ArrayList<String> mBlockList = new ArrayList<>();
 
         private boolean mShowWifiStandard;
+        private boolean mOldStyleType;
 
         private static final String SHOW_WIFI_STANDARD_ICON =
                 "system:" + Settings.System.SHOW_WIFI_STANDARD_ICON;
+
+        private static final String USE_OLD_MOBILETYPE =
+                "system:" + Settings.System.USE_OLD_MOBILETYPE;
 
         public IconManager(ViewGroup group, FeatureFlags featureFlags) {
             mFeatureFlags = featureFlags;
@@ -362,8 +365,9 @@ public interface StatusBarIconController {
         @VisibleForTesting
         protected StatusBarMobileView addMobileIcon(int index, String slot, MobileIconState state) {
             StatusBarMobileView view = onCreateStatusBarMobileView(slot);
-            view.applyMobileState(state, useOldStyleMobileDataIcons());
+            view.applyMobileState(state);
             mGroup.addView(view, index, onCreateLayoutParams());
+            Dependency.get(TunerService.class).addTunable(this, USE_OLD_MOBILETYPE);
 
             if (mIsInDemoMode) {
                 mDemoStatusIcons.addMobileView(state);
@@ -469,7 +473,7 @@ public interface StatusBarIconController {
         public void onSetMobileIcon(int viewIndex, MobileIconState state) {
             StatusBarMobileView view = (StatusBarMobileView) mGroup.getChildAt(viewIndex);
             if (view != null) {
-                view.applyMobileState(state, useOldStyleMobileDataIcons());
+                view.applyMobileState(state);
             }
 
             if (mIsInDemoMode) {
@@ -513,12 +517,6 @@ public interface StatusBarIconController {
             return new DemoStatusIcons((LinearLayout) mGroup, mIconSize, mFeatureFlags);
         }
 
-        private boolean useOldStyleMobileDataIcons() {
-            return Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.USE_OLD_MOBILETYPE, 0,
-                    UserHandle.USER_CURRENT) != 0;
-        }
-
         @Override
         public void onTuningChanged(String key, String newValue) {
             switch (key) {
@@ -526,6 +524,11 @@ public interface StatusBarIconController {
                     mShowWifiStandard =
                         TunerService.parseIntegerSwitch(newValue, false);
                     updateShowWifiStandard();
+                    break;
+                case USE_OLD_MOBILETYPE:
+                    mOldStyleType =
+                        TunerService.parseIntegerSwitch(newValue, false);
+                    updateOldStyleMobileDataIcons();
                     break;
                 default:
                     break;
@@ -537,6 +540,15 @@ public interface StatusBarIconController {
                 View child = mGroup.getChildAt(i);
                 if (child instanceof StatusBarWifiView) {
                     ((StatusBarWifiView) child).updateWifiState(mShowWifiStandard);
+                }
+            }
+        }
+
+        private void updateOldStyleMobileDataIcons() {
+            for (int i = 0; i < mGroup.getChildCount(); i++) {
+                View child = mGroup.getChildAt(i);
+                if (child instanceof StatusBarMobileView) {
+                    ((StatusBarMobileView) child).updateDisplayType(mOldStyleType);
                 }
             }
         }
