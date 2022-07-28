@@ -35,17 +35,15 @@
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:progressDrawable="@drawable/brightness_progress_drawable"
-            android:splitTrack="false"
-        />
+            android:splitTrack="false"/>
 
-    <ImageButton
-        android:id="@+id/brightness_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/bg_qs_brightness_auto_on"
-        android:src="@drawable/ic_qs_brightness_auto_on"
-        android:contentDescription="@null"
-        android:layout_marginStart="8dp" />
-
+        <ImageButton
+            android:id="@+id/brightness_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_qs_brightness_auto_on"
+            android:src="@drawable/ic_qs_brightness_auto_on"
+            android:contentDescription="@null"
+            android:layout_marginStart="8dp"/>
 </com.android.systemui.settings.brightness.BrightnessSliderView>
