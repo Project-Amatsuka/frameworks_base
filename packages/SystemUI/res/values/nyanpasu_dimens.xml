@@ -49,4 +49,7 @@
     <dimen name="new_qs_tile_height">92dp</dimen>
     <dimen name="new_qs_tile_chevron_width">10dp</dimen>
     <dimen name="new_qs_tile_chevron_height">12dp</dimen>
+
+    <!-- QuickQS BrightnessBar -->
+    <dimen name="new_qqs_brightness_margin_top">12dp</dimen>
 </resources>
