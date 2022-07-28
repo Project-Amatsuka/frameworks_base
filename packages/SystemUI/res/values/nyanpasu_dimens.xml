@@ -52,4 +52,7 @@
 
     <!-- QS Footer -->
     <dimen name="new_qs_footer_height">154dp</dimen>
+
+    <!-- QuickQS BrightnessBar -->
+    <dimen name="new_qqs_brightness_margin_top">12dp</dimen>
 </resources>
