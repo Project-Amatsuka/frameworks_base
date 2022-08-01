@@ -1202,7 +1202,7 @@ public class NavigationBar implements View.OnAttachStateChangeListener,
 
     private void onVerticalChanged(boolean isVertical) {
         mStatusBarOptionalLazy.get().ifPresent(
-                statusBar -> statusBar.setQsScrimEnabled(!isVertical));
+                statusBar -> {});
     }
 
     private boolean onNavigationTouch(View v, MotionEvent event) {
