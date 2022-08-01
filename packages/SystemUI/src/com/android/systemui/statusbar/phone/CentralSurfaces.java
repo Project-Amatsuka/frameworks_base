@@ -307,9 +307,6 @@ public interface CentralSurfaces extends Dumpable, ActivityStarter, LifecycleOwn
 
     void checkBarModes();
 
-    // Called by NavigationBarFragment
-    void setQsScrimEnabled(boolean scrimEnabled);
-
     void updateBubblesVisibility();
 
     void setInteracting(int barWindow, boolean interacting);
