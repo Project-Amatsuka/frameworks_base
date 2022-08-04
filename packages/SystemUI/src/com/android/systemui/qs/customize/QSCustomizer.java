@@ -89,16 +89,6 @@ public class QSCustomizer extends LinearLayout {
         mTransparentView.setLayoutParams(lp);
     }
 
-    void updateNavBackDrop(Configuration newConfig, LightBarController lightBarController) {
-        mIsShowingNavBackdrop = newConfig.smallestScreenWidthDp >= 600
-                || newConfig.orientation != Configuration.ORIENTATION_LANDSCAPE;
-        updateNavColors(lightBarController);
-    }
-
-    void updateNavColors(LightBarController lightBarController) {
-        lightBarController.setQsCustomizing(mIsShowingNavBackdrop && isShown);
-    }
-
     public void setContainerController(QSContainerController controller) {
         mQsContainerController = controller;
     }

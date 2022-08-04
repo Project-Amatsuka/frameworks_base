@@ -43,4 +43,7 @@
 
     <!-- QuickQS BrightnessBar -->
     <dimen name="kscope_qqs_brightness_margin_top">12dp</dimen>
+
+    <!-- QS Customizer -->
+    <dimen name="kscope_qs_customize_side_paddings">16dp</dimen>
 </resources>
