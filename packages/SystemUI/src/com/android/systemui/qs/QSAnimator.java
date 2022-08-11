@@ -39,6 +39,7 @@ import com.android.systemui.qs.dagger.QSScope;
 import com.android.systemui.qs.tileimpl.HeightOverrideable;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
+import com.android.systemui.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -86,6 +87,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     @Nullable
     private PagedTileLayout mPagedLayout;
 
+    private View mQuickQSDragHandleLineView;
     private boolean mOnFirstPage = true;
     private int mCurrentPage = 0;
     private final QSExpansionPathInterpolator mQSExpansionPathInterpolator;
@@ -156,6 +158,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
         mTunerService = tunerService;
         mQSExpansionPathInterpolator = qsExpansionPathInterpolator;
         mHost.addCallback(this);
+        mQuickQSDragHandleLineView = mQuickStatusBarHeader.findViewById(R.id.qs_drag_handle);
         mQsPanelController.addOnAttachStateChangeListener(this);
         qs.getView().addOnLayoutChangeListener(this);
         if (mQsPanelController.isAttachedToWindow()) {
@@ -600,6 +603,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                     // portrait orientation before
                     .addFloat(qsBrightness, "sliderScaleY", 0.3f, 1)
                     .addFloat(qqsBrightness, "translationY", 0, translationY)
+                    .addFloat(mQuickQSDragHandleLineView, "translationY", 0, translationY)
                     .build();
         } else if (qsBrightness != null) {
             firstPageBuilder.addFloat(qsBrightness, "translationY",
