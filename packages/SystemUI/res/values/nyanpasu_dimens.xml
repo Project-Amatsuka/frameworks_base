@@ -58,4 +58,8 @@
 
     <!-- QS Customizer -->
     <dimen name="new_qs_customize_side_paddings">16dp</dimen>
+
+    <!-- QS Drag Handle -->
+    <dimen name="new_qs_drag_handle_width">56dp</dimen>
+    <dimen name="new_qs_drag_handle_height">4dp</dimen>
 </resources>

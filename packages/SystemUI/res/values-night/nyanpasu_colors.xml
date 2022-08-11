@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+     Copyright (C) 2022 The Project Nyanpasu
+
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- QS Drag Handler -->
+    <color name="new_qs_drag_handle_color">@android:color/system_neutral1_700</color>
+</resources>
