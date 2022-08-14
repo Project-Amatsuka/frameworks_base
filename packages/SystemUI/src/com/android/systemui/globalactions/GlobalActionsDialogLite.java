@@ -174,6 +174,7 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
     static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
     private static final String GLOBAL_ACTION_KEY_REBOOT_RECOVERY = "reboot_recovery";
     private static final String GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER = "reboot_bootloader";
+    private static final String GLOBAL_ACTION_KEY_REBOOT_FASTBOOT = "reboot_fastboot";
 
     // See NotificationManagerService#scheduleDurationReachedLocked
     private static final long TOAST_FADE_TIME = 333;
@@ -621,6 +622,9 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
             } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER.equals(actionKey)) {
                 RebootBootloaderAction a = new RebootBootloaderAction();
                 addIfShouldShowAction(items, a);
+            } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_FASTBOOT.equals(actionKey)) {
+                RebootFastbootAction a = new RebootFastbootAction();
+                addIfShouldShowAction(items, a);
             }
         }
         return items;
@@ -645,6 +649,7 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
         RestartAction restartAction = new RestartAction();
         RebootRecoveryAction rbtRecoveryAction = new RebootRecoveryAction();
         RebootBootloaderAction rbtBlAction = new RebootBootloaderAction();
+        RebootFastbootAction rbtFastbootAction = new RebootFastbootAction();
 
         // make sure emergency affordance action is first, if needed
         if (mEmergencyAffordanceManager.needsEmergencyAffordance() && !mRebootMenu) {
@@ -691,6 +696,8 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
                 addIfShouldShowAction(tempActions, rbtRecoveryAction);
             } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_BOOTLOADER.equals(actionKey)) {
                 addIfShouldShowAction(tempActions, rbtBlAction);
+            } else if (advancedRebootEnabled(mContext) && GLOBAL_ACTION_KEY_REBOOT_FASTBOOT.equals(actionKey)) {
+                addIfShouldShowAction(tempActions, rbtFastbootAction);
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 addIfShouldShowAction(tempActions, new ScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_LOGOUT.equals(actionKey)) {
@@ -722,12 +729,14 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
             if (advancedRebootEnabled(mContext)) {
                 tempActions.remove(rbtRecoveryAction);
                 tempActions.remove(rbtBlAction);
+                tempActions.remove(rbtFastbootAction);
             }
             mPowerItems.add(shutdownAction);
             mPowerItems.add(restartAction);
             if (advancedRebootEnabled(mContext)) {
                 mPowerItems.add(rbtRecoveryAction);
                 mPowerItems.add(rbtBlAction);
+                mPowerItems.add(rbtFastbootAction);
             }
 
             // add the PowerOptionsAction after Emergency, if present
@@ -1085,6 +1094,32 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
         @Override
         public void onPress() {
             mWindowManagerFuncs.reboot(false, PowerManager.REBOOT_BOOTLOADER);
+        }
+    }
+
+    private final class RebootFastbootAction extends SinglePressAction {
+        private RebootFastbootAction() {
+            super(com.android.systemui.R.drawable.ic_restart_fastboot, com.android.systemui.R.string.global_action_reboot_fastboot);
+        }
+
+        @Override
+        public boolean showDuringKeyguard() {
+            return true;
+        }
+
+        @Override
+        public boolean showDuringRestrictedKeyguard() {
+            return false;
+        }
+
+        @Override
+        public boolean showBeforeProvisioning() {
+            return true;
+        }
+
+        @Override
+        public void onPress() {
+            mWindowManagerFuncs.reboot(false, PowerManager.REBOOT_FASTBOOT);
         }
     }
 
