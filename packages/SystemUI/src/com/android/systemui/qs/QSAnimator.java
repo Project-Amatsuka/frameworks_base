@@ -464,6 +464,7 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                     // Fade in the tiles/labels as we reach the final position.
                     .addFloat(tileLayout, "alpha", 0, 1)
                     .addFloat(quadraticInterpolatorBuilder.build(), "position", 0, 1)
+                    .setStartDelay(EXPANDED_TILE_DELAY)
                     .setListener(this)
                     .build();
 
