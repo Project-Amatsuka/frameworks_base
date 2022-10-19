@@ -494,6 +494,11 @@ public class Utils {
 
         if (showX) return SHOW_X_WIFI_PIE[level];
 
+        final int showWifiStandard = Settings.System.SHOW_WIFI_STANDARD_ICON;
+        if (showWifiStandard != 1) {
+            return WIFI_PIE[level];
+        }
+
         switch (standard) {
             case 4:
                 return WIFI_4_PIE[level];
