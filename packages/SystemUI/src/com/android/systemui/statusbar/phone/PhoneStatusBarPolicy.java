@@ -38,6 +38,7 @@ import android.os.Handler;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.service.notification.ZenModeConfig;
 import android.telecom.TelecomManager;
@@ -805,7 +806,12 @@ public class PhoneStatusBarPolicy
         if (DEBUG) Log.d(TAG, "screenrecord: hiding icon");
         mHandler.post(() -> mIconController.setIconVisibility(mSlotScreenRecord, false));
     }
-
+    if (Settings.System.getInt(context.getContentResolver(),
+            Settings.System.SHOW_WIFI_STANDARD_ICON, 1) == 0) {
+        mIconController.setIcon(mSlotHotspot, R.drawable.stat_sys_hotspot,
+            mResources.getString(R.string.accessibility_status_bar_hotspot));
+        return;
+    }
     private void updateHotspotIcon(int standard) {
         if (standard == ScanResult.WIFI_STANDARD_11AX) {
             mIconController.setIcon(mSlotHotspot, R.drawable.stat_sys_wifi_6_hotspot,
