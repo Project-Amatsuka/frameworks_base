@@ -479,6 +479,13 @@ public class Utils {
         return getWifiIconResource(false /* showX */, level,  standard);
     }
 
+
+    private boolean showWifiStandard(Context context) {
+        return Settings.Secure.getIntForUser(context.getContentResolver(),
+                Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                UserHandle.USER_CURRENT) != 0;
+    }
+
     /**
      * Returns the Wifi icon resource for a given RSSI level.
      *
@@ -492,7 +499,15 @@ public class Utils {
             throw new IllegalArgumentException("No Wifi icon found for level: " + level);
         }
 
+        private boolean showWifiStandard(Context context) {
+            return Settings.Secure.getIntForUser(context.getContentResolver(),
+                    Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                    UserHandle.USER_CURRENT) != 0;
+        }
+
         if (showX) return SHOW_X_WIFI_PIE[level];
+
+        if (!showWifiStandard) return WIFI_PIE[level];
 
         switch (standard) {
             case 4:

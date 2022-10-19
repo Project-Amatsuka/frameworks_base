@@ -29,6 +29,8 @@ import android.net.wifi.WifiConfiguration.NetworkSelectionStatus;
 import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
@@ -378,6 +380,11 @@ public class WifiUtils {
      */
     public static int getInternetIconResource(int level, boolean noInternet, int standard) {
         int wifiLevel = level;
+        private boolean showWifiStandard(Context context) {
+            return Settings.Secure.getIntForUser(context.getContentResolver(),
+                    Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                    UserHandle.USER_CURRENT) != 0;
+        }
         if (wifiLevel < 0) {
             Log.e(TAG, "Wi-Fi level is out of range! level:" + level);
             wifiLevel = 0;
@@ -386,6 +393,7 @@ public class WifiUtils {
             wifiLevel = WIFI_PIE.length - 1;
         }
         if (noInternet) return NO_INTERNET_WIFI_PIE[wifiLevel];
+        if (!showWifiStandard) return WIFI_PIE[level];
         switch (standard) {
             case 4:
                 return WIFI_4_PIE[wifiLevel];
