@@ -38,6 +38,7 @@ import android.os.Handler;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.service.notification.ZenModeConfig;
 import android.telecom.TelecomManager;
@@ -807,6 +808,11 @@ public class PhoneStatusBarPolicy
     }
 
     private void updateHotspotIcon(int standard) {
+        if (!showWifiStandard) {
+            mIconController.setIcon(mSlotHotspot, R.drawable.stat_sys_hotspot,
+                mResources.getString(R.string.accessibility_status_bar_hotspot));
+            return;
+        }
         if (standard == ScanResult.WIFI_STANDARD_11AX) {
             mIconController.setIcon(mSlotHotspot, R.drawable.stat_sys_wifi_6_hotspot,
                 mResources.getString(R.string.accessibility_status_bar_hotspot));
@@ -820,6 +826,12 @@ public class PhoneStatusBarPolicy
             mIconController.setIcon(mSlotHotspot, R.drawable.stat_sys_hotspot,
                 mResources.getString(R.string.accessibility_status_bar_hotspot));
         }
+    }
+
+    private boolean showWifiStandard(Context context) {
+        return Settings.Secure.getIntForUser(context.getContentResolver(),
+                Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                UserHandle.USER_CURRENT) != 0;
     }
 
     public static class BluetoothIconState {

@@ -29,6 +29,7 @@ import android.net.wifi.WifiConfiguration.NetworkSelectionStatus;
 import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
@@ -386,6 +387,7 @@ public class WifiUtils {
             wifiLevel = WIFI_PIE.length - 1;
         }
         if (noInternet) return NO_INTERNET_WIFI_PIE[wifiLevel];
+        if (!showWifiStandard) return WIFI_PIE[level];
         switch (standard) {
             case 4:
                 return WIFI_4_PIE[wifiLevel];
@@ -396,6 +398,12 @@ public class WifiUtils {
             default:
                 return WIFI_PIE[wifiLevel];
        }
+    }
+
+    private boolean showWifiStandard() {
+        return Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                UserHandle.USER_CURRENT) != 0;
     }
 
     /**
