@@ -24,6 +24,7 @@ import static com.android.systemui.statusbar.StatusBarIconView.STATE_ICON;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -239,11 +240,16 @@ public class StatusBarWifiView extends FrameLayout implements DarkReceiver,
     }
 
     private void setWifiStandard() {
+        if (!showWifiStandard) {
+            mWifiStandard.setVisibility(View.GONE);
+            return;
+        }
         int wifiStandard = mState.wifiStandard;
         if (wifiStandard >= 4) {
             int identifier = getResources().getIdentifier("ic_wifi_standard_" + wifiStandard,
                     "drawable", getContext().getPackageName());
             if (identifier > 0) {
+                mWifiStandard.setVisibility(View.VISIBLE);
                 mWifiStandard.setImageDrawable(mContext.getDrawable(identifier));
             }
         }
@@ -261,6 +267,11 @@ public class StatusBarWifiView extends FrameLayout implements DarkReceiver,
         mDotView.setIconColor(areaTint, false);
     }
 
+    private boolean showWifiStandard() {
+        return Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                UserHandle.USER_CURRENT) != 0;
+    }
 
     @Override
     public String toString() {
