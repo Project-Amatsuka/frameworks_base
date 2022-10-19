@@ -534,5 +534,11 @@ public interface StatusBarIconController {
         protected DemoStatusIcons createDemoStatusIcons() {
             return new DemoStatusIcons((LinearLayout) mGroup, mIconSize, mFeatureFlags);
         }
+
+        private boolean showWifiStandard() {
+            return Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    Settings.Secure.SHOW_WIFI_STANDARD_ICON, 0,
+                    UserHandle.USER_CURRENT) != 0;
+        }    
     }
 }
