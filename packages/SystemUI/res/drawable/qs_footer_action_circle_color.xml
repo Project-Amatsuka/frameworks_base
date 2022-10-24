@@ -17,7 +17,7 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
     android:inset="@dimen/qs_footer_action_inset">
     <ripple
-        android:color="?android:attr/colorControlHighlight">
+        android:color="?android:colorBackground">
         <item android:id="@android:id/mask">
             <!-- We make this shape a rounded rectangle instead of a oval so that it can animate -->
             <!-- properly into an app/dialog. -->
