@@ -18,12 +18,14 @@ package com.android.systemui.media
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.provider.Settings
 import android.text.format.DateUtils
 import androidx.annotation.UiThread
 import androidx.lifecycle.Observer
 import com.android.internal.annotations.VisibleForTesting
 import com.android.systemui.R
 import com.android.systemui.animation.Interpolators
+import com.android.systemui.util.settings.SecureSettings
 
 /**
  * Observer for changes from SeekBarViewModel.
@@ -32,6 +34,7 @@ import com.android.systemui.animation.Interpolators
  */
 open class SeekBarObserver(
     private val holder: MediaViewHolder
+    private val secureSettings: SecureSettings
 ) : Observer<SeekBarViewModel.Progress> {
 
     companion object {
@@ -47,6 +50,7 @@ open class SeekBarObserver(
                 .getDimensionPixelSize(R.dimen.qs_media_session_enabled_seekbar_vertical_padding)
     val seekBarDisabledVerticalPadding = holder.seekBar.context.resources
                 .getDimensionPixelSize(R.dimen.qs_media_session_disabled_seekbar_vertical_padding)
+    val enableSquiggle = secureSettings.getInt(Settings.Secure.CONTROLS_ENABLED)
     var seekBarResetAnimator: Animator? = null
 
     init {
@@ -88,7 +92,7 @@ open class SeekBarObserver(
 
         holder.seekBar.thumb.alpha = if (data.seekAvailable) 255 else 0
         holder.seekBar.isEnabled = data.seekAvailable
-        progressDrawable?.animate = data.playing && !data.scrubbing
+        progressDrawable?.animate = data.playing && !data.scrubbing && enableSquiggle == 1
         progressDrawable?.transitionEnabled = !data.seekAvailable
 
         if (holder.seekBar.maxHeight != seekBarEnabledMaxHeight) {
