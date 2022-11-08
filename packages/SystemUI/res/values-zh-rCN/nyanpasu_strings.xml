@@ -31,4 +31,9 @@
     <string name="global_action_reboot_bootloader">引导模式</string>
     <string name="global_action_reboot_fastboot">FastbootD</string>
     <string name="global_action_settings">设置</string>
+
+    <!-- Bluetooth dialog -->
+    <string name="turn_on_bluetooth">使用蓝牙</string>
+    <string name="bluetooth_is_off">蓝牙已关闭</string>
+    <string name="tap_a_device_to_connect">点按设备以连接</string>
 </resources>
