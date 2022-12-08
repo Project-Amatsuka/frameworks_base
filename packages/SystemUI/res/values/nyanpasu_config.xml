@@ -16,4 +16,7 @@
     <!--The number of columns in the QuickQSPanel -->
     <integer name="new_quick_qs_panel_max_tiles">5</integer>
     <integer name="new_quick_qs_panel_max_columns">5</integer>
+
+    <!-- QS Transparency -->
+    <item name="qs_panel_scrim_alpha" format="float" type="dimen">0.98</item>
 </resources>
