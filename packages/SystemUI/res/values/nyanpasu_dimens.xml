@@ -59,4 +59,7 @@
     <!-- QS Drag Handle -->
     <dimen name="new_qs_drag_handle_width">56dp</dimen>
     <dimen name="new_qs_drag_handle_height">4dp</dimen>
+
+    <!-- QS Transparency -->
+    <dimen name="qs_panel_scrim_alpha">0.98f</dimen>
 </resources>
