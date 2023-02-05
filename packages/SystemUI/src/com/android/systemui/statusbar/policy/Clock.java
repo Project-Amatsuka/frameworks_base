@@ -53,6 +53,7 @@ import com.android.systemui.plugins.DarkIconDispatcher.DarkReceiver;
 import com.android.systemui.settings.CurrentUserTracker;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 import com.android.systemui.shared.system.TaskStackChangeListener;
+import com.android.systemui.shared.system.TaskStackChangeListeners;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.policy.ConfigurationController.ConfigurationListener;
 import com.android.systemui.tuner.TunerService;
@@ -90,10 +91,10 @@ public class Clock extends TextView implements
     private boolean mClockVisibleByPolicy = true;
     private boolean mClockVisibleByUser = getVisibility() == View.VISIBLE;
     private boolean mClockAutoHide = false;
-    private TaskStackListenerImpl mTaskStackListener = null;
 
     private boolean mAttached;
     private boolean mScreenReceiverRegistered;
+    private boolean mTaskStackListenerRegistered;
     private Calendar mCalendar;
     private String mContentDescriptionFormatString;
     private SimpleDateFormat mClockFormat;
@@ -239,12 +240,12 @@ public class Clock extends TextView implements
     }
 
     private void handleTaskStackListener(boolean register) {
-        if (register && mTaskStackListener == null) {
-            mTaskStackListener = new TaskStackListenerImpl();
-            ActivityManagerWrapper.getInstance().registerTaskStackListener(mTaskStackListener);
-        } else if (!register && mTaskStackListener != null) {
-            ActivityManagerWrapper.getInstance().unregisterTaskStackListener(mTaskStackListener);
-            mTaskStackListener = null;
+        if (register && !mTaskStackListenerRegistered) {
+            TaskStackChangeListeners.getInstance().registerTaskStackListener(mTaskStackListener);
+            mTaskStackListenerRegistered = true;
+        } else if (!register && mTaskStackListenerRegistered) {
+            TaskStackChangeListeners.getInstance().unregisterTaskStackListener(mTaskStackListener);
+            mTaskStackListenerRegistered = false;
         }
     }
 
@@ -576,7 +577,7 @@ public class Clock extends TextView implements
         }
     };
 
-    private class TaskStackListenerImpl implements TaskStackChangeListener {
+    private final TaskStackChangeListener mTaskStackListener = new TaskStackChangeListener() {
         @Override
         public void onTaskStackChanged() {
             updateShowClock();
@@ -591,6 +592,6 @@ public class Clock extends TextView implements
         public void onTaskMovedToFront(int taskId) {
             updateShowClock();
         }
-    }
+    };
 }
 

@@ -165,7 +165,7 @@ public class StatusBarIconHolder {
             case TYPE_NETWORK_TRAFFIC:
                 return true;
             case TYPE_BLUETOOTH:
-                return mBluetoothState.visible;
+		        return mBluetoothState.visible;
 
             default: return true;
         }

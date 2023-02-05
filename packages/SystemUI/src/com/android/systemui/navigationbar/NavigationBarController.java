@@ -49,6 +49,8 @@ import com.android.systemui.Dumpable;
 import com.android.systemui.dagger.SysUISingleton;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.dump.DumpManager;
+import com.android.systemui.flags.FeatureFlags;
+import com.android.systemui.flags.Flags;
 import com.android.systemui.model.SysUiState;
 import com.android.systemui.recents.OverviewProxyService;
 import com.android.systemui.shared.system.QuickStepContract;
@@ -67,7 +69,6 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-
 /** A controller to handle navigation bars. */
 @SysUISingleton
 public class NavigationBarController implements
@@ -82,6 +83,7 @@ public class NavigationBarController implements
     private final Context mContext;
     private final Handler mHandler;
     private final NavigationBarComponent.Factory mNavigationBarComponentFactory;
+    private FeatureFlags mFeatureFlags;
     private final DisplayManager mDisplayManager;
     private final TaskbarDelegate mTaskbarDelegate;
     private final StatusBarKeyguardViewManager mStatusBarKeyguardViewManager;
@@ -113,10 +115,12 @@ public class NavigationBarController implements
             AutoHideController autoHideController,
             LightBarController lightBarController,
             Optional<Pip> pipOptional,
-            Optional<BackAnimation> backAnimation) {
+            Optional<BackAnimation> backAnimation,
+            FeatureFlags featureFlags) {
         mContext = context;
         mHandler = mainHandler;
         mNavigationBarComponentFactory = navigationBarComponentFactory;
+        mFeatureFlags = featureFlags;
         mDisplayManager = mContext.getSystemService(DisplayManager.class);
         commandQueue.addCallback(this);
         configurationController.addCallback(this);
@@ -311,7 +315,7 @@ public class NavigationBarController implements
 
         // We may show TaskBar on the default display for large screen device. Don't need to create
         // navigation bar for this case.
-        if (shouldShowTaskbar() && isOnDefaultDisplay) {
+        if (isOnDefaultDisplay && initializeTaskbarIfNecessary()) {
             return;
         }
 
