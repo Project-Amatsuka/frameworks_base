@@ -126,8 +126,8 @@ public class Flags {
 
     /***************************************/
     // 600- status bar
-    public static final ResourceBooleanFlag COMBINED_STATUS_BAR_SIGNAL_ICONS =
-            new ResourceBooleanFlag(601, R.bool.flag_combined_status_bar_signal_icons);
+    public static final BooleanFlag COMBINED_STATUS_BAR_SIGNAL_ICONS =
+            new BooleanFlag(601, false);
 
     public static final ResourceBooleanFlag STATUS_BAR_USER_SWITCHER =
             new ResourceBooleanFlag(602, R.bool.flag_user_switcher_chip);
@@ -151,7 +151,7 @@ public class Flags {
     /***************************************/
     // 900 - media
     public static final BooleanFlag MEDIA_TAP_TO_TRANSFER = new BooleanFlag(900, false);
-    public static final BooleanFlag MEDIA_SESSION_ACTIONS = new BooleanFlag(901, true);
+    public static final BooleanFlag MEDIA_SESSION_ACTIONS = new BooleanFlag(901, false);
     public static final BooleanFlag MEDIA_NEARBY_DEVICES = new BooleanFlag(903, true);
     public static final BooleanFlag MEDIA_MUTE_AWAIT = new BooleanFlag(904, true);
 
