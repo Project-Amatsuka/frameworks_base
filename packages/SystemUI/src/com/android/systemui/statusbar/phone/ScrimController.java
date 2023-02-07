@@ -55,6 +55,7 @@ import com.android.systemui.dock.DockManager;
 import com.android.systemui.keyguard.KeyguardUnlockAnimationController;
 import com.android.systemui.scrim.ScrimView;
 import com.android.systemui.shade.NotificationPanelViewController;
+import com.android.systemui.statusbar.BlurUtils;
 import com.android.systemui.statusbar.notification.stack.ViewState;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
@@ -214,7 +215,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
     // (if wallpaper dimming is applied).
     private float mScrimBehindAlphaKeyguard = KEYGUARD_SCRIM_ALPHA;
     private final float mDefaultScrimAlpha;
-    private float mScrimAlpha = 0.95f; // Set QS and Lockscreen transparency
+    private float mScrimAlpha;
 
     private float mRawPanelExpansionFraction;
     private float mPanelScrimMinFraction;
@@ -274,9 +275,13 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, Dump
             @Main Executor mainExecutor,
             ScreenOffAnimationController screenOffAnimationController,
             KeyguardUnlockAnimationController keyguardUnlockAnimationController,
-            StatusBarKeyguardViewManager statusBarKeyguardViewManager) {
+            StatusBarKeyguardViewManager statusBarKeyguardViewManager,
+            BlurUtils blurUtils) {
         mScrimStateListener = lightBarController::setScrimState;
         mDefaultScrimAlpha = BUSY_SCRIM_ALPHA;
+
+        // If support blur Set QS and Lockscreen 0.75f transparency otherwise set 0.95f
+        mScrimAlpha = blurUtils.supportsBlursOnWindows() ? .8f : .95f;
 
         mKeyguardStateController = keyguardStateController;
         mDarkenWhileDragging = !mKeyguardStateController.canDismissLockScreen();
